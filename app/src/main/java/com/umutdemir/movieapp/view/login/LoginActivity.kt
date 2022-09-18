@@ -46,10 +46,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener(){
-            //username = usernameText.text.toString()
-            //password = passwordText.text.toString()
-            username = "umutcaandmr"
-            password = "kn*4h!#4-5PMS\$h"
+            username = usernameText.text.toString()
+            password = passwordText.text.toString()
             hesap = LoginModel(username,password,token)
 
             viewModel.sendLogin(hesap)
