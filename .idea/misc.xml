@@ -7,9 +7,10 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2185" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.34323144104803494" />
         <entry key="app/src/main/res/layout/fragment_home_page_movie.xml" value="0.24235076904296882" />
         <entry key="app/src/main/res/layout/fragment_popular.xml" value="0.3176722208658854" />
-        <entry key="app/src/main/res/layout/recycler_row_homepage.xml" value="0.3117010807645494" />
+        <entry key="app/src/main/res/layout/recycler_row_homepage.xml" value="1.1228571428571428" />
         <entry key="app/src/main/res/layout/recycler_row_popular.xml" value="0.3424591064453125" />
       </map>
     </option>

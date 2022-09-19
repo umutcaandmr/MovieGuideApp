@@ -11,8 +11,8 @@
         android:label="fragment_popular"
         tools:layout="@layout/fragment_popular" >
         <action
-            android:id="@+id/action_popularFragment_to_homePageMovieFragment"
-            app:destination="@id/homePageMovieFragment" />
+            android:id="@+id/action_popularFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/homePageMovieFragment"
@@ -22,5 +22,17 @@
         <action
             android:id="@+id/action_homePageMovieFragment_to_popularFragment"
             app:destination="@id/popularFragment" />
+        <action
+            android:id="@+id/action_homePageMovieFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.umutdemir.movieapp.view.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="movieID"
+            app:argType="integer" />
     </fragment>
 </navigation>

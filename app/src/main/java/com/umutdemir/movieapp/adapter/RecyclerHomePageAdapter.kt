@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.umutdemir.movieapp.R
 import com.umutdemir.movieapp.model.Result
 import com.umutdemir.movieapp.util.downloadPoster
+import com.umutdemir.movieapp.view.HomePageMovieFragmentDirections
+import com.umutdemir.movieapp.view.PopularFragmentDirections
 import kotlinx.android.synthetic.main.recycler_row_popular.view.*
 
 class RecyclerHomePageAdapter(val responseMovie :ArrayList<Result>) : RecyclerView.Adapter<RecyclerHomePageAdapter.HomeVH>() {
@@ -25,6 +28,11 @@ class RecyclerHomePageAdapter(val responseMovie :ArrayList<Result>) : RecyclerVi
     override fun onBindViewHolder(holder: HomeVH, position: Int) {
         holder.itemView.imageView.downloadPoster(responseMovie.get(position).poster_path)
         holder.itemView.movieName.text = responseMovie.get(position).title
+
+        holder.itemView.setOnClickListener(){
+            val action = HomePageMovieFragmentDirections.actionHomePageMovieFragmentToDetailsFragment(responseMovie.get(position).id)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun getItemCount(): Int {

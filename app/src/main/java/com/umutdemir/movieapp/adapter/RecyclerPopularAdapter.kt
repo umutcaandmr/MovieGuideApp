@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.umutdemir.movieapp.R
 import com.umutdemir.movieapp.model.Result
 import com.umutdemir.movieapp.util.downloadPoster
+import com.umutdemir.movieapp.view.PopularFragmentDirections
 import kotlinx.android.synthetic.main.recycler_row_popular.view.*
 
 class RecyclerPopularAdapter(val responsePopular :ArrayList<Result>) : RecyclerView.Adapter<RecyclerPopularAdapter.VH>() {
@@ -29,6 +31,11 @@ class RecyclerPopularAdapter(val responsePopular :ArrayList<Result>) : RecyclerV
         holder.itemView.movieVote.text = responsePopular.get(position).vote_average.toString()
         holder.itemView.moviePopularity.text = responsePopular.get(position).overview
         holder.itemView.imageView.downloadPoster(responsePopular.get(position).poster_path)
+
+        holder.itemView.setOnClickListener(){
+            val action = PopularFragmentDirections.actionPopularFragmentToDetailsFragment(responsePopular.get(position).id)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun getItemCount(): Int {

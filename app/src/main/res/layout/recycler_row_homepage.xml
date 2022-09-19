@@ -13,9 +13,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
-        app:srcCompat="@drawable/ic_launcher_background"
-        />
+        android:layout_height="165dp"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/movieName"

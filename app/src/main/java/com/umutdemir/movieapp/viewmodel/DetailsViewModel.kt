@@ -2,24 +2,24 @@ package com.umutdemir.movieapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.umutdemir.movieapp.model.ResponsePopular
+import com.umutdemir.movieapp.model.ResponseDetails
 import com.umutdemir.movieapp.model.Result
 import com.umutdemir.movieapp.servis.MovieApiServis
 import kotlinx.coroutines.*
 
-class PopularViewModel : ViewModel() {
+class DetailsViewModel : ViewModel() {
 
     val apiServis = MovieApiServis()
-    val respondResult = MutableLiveData<List<Result>>()
+    val respondDetails = MutableLiveData<ResponseDetails>()
     var job : Job? = null
 
-    fun getPopular(page : Int){
+    fun getDetails(id : Int){
 
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = apiServis.getPopular(page)
+            val response = apiServis.getDetails(id)
             withContext(Dispatchers.Main){
                 if(response.isSuccessful){
-                    respondResult.postValue(response.body()!!.results)
+                    respondDetails.postValue(response.body())
                 }
 
                 else{
@@ -36,5 +36,3 @@ class PopularViewModel : ViewModel() {
         job?.cancel()
     }
 }
-
-

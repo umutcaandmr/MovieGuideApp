@@ -1,10 +1,11 @@
 package com.umutdemir.movieapp.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker.OnValueChangeListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umutdemir.movieapp.R
@@ -15,10 +16,10 @@ import kotlinx.android.synthetic.main.fragment_popular.*
 
 class PopularFragment : Fragment() {
 
-
-
-    lateinit var viewModel : PopularViewModel
+    var popularPage = 1
+    lateinit var viewModel: PopularViewModel
     var recylerPopularAdapter = RecyclerPopularAdapter(arrayListOf())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +38,27 @@ class PopularFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        numberPicker.maxValue = 500
+        numberPicker.minValue = 1
+
         viewModel = ViewModelProvider(this).get(PopularViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = recylerPopularAdapter
 
         observeLiveData()
-        viewModel.getPopular()
+        viewModel.getPopular(popularPage)
+        numberPicker.setOnValueChangedListener(OnValueChangeListener { numberPicker, oldVal, newVal ->
+            popularPage = newVal
+            viewModel.getPopular(popularPage)
+            observeLiveData()
+
+        })
+
+
     }
 
-    fun observeLiveData (){
+    fun observeLiveData() {
         viewModel.respondResult.observe(viewLifecycleOwner) {
             it?.let {
 

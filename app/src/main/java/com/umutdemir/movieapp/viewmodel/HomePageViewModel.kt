@@ -10,12 +10,16 @@ class HomePageViewModel : ViewModel() {
 
     val apiServis = MovieApiServis()
     val respondPopular = MutableLiveData<List<Result>>()
-    var job : Job? = null
+    val respondTopRated = MutableLiveData<List<Result>>()
+    val respondNowPlaying = MutableLiveData<List<Result>>()
+    var jobPopular : Job? = null
+    var jobTopRated : Job? = null
+    var jobNowPlaying : Job? = null
 
-    fun getPopular(){
+    fun getPopular(page : Int){
 
-        job = CoroutineScope(Dispatchers.IO).launch {
-            val response = apiServis.getPopular()
+        jobPopular = CoroutineScope(Dispatchers.IO).launch {
+            val response = apiServis.getPopular(page)
             withContext(Dispatchers.Main){
                 if(response.isSuccessful){
                     respondPopular.postValue(response.body()!!.results)
@@ -30,8 +34,46 @@ class HomePageViewModel : ViewModel() {
 
     }
 
+    fun getTopRated(page : Int){
+
+        jobPopular = CoroutineScope(Dispatchers.IO).launch {
+            val response = apiServis.getTopRated(page)
+            withContext(Dispatchers.Main){
+                if(response.isSuccessful){
+                    respondTopRated.postValue(response.body()!!.results)
+                }
+
+                else{
+                    println(response.errorBody()!!.toString())
+                }
+
+            }
+        }
+
+    }
+
+    fun getNowPlaying(page : Int){
+
+        jobPopular = CoroutineScope(Dispatchers.IO).launch {
+            val response = apiServis.getNowPlaying(page)
+            withContext(Dispatchers.Main){
+                if(response.isSuccessful){
+                    respondNowPlaying.postValue(response.body()!!.results)
+                }
+
+                else{
+                    println(response.errorBody()!!.toString())
+                }
+
+            }
+        }
+
+    }
+
     override fun onCleared() {
         super.onCleared()
-        job?.cancel()
+        jobPopular?.cancel()
+        jobNowPlaying?.cancel()
+        jobTopRated?.cancel()
     }
 }

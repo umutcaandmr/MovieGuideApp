@@ -16,11 +16,14 @@ import com.umutdemir.movieapp.viewmodel.PopularViewModel
 import kotlinx.android.synthetic.main.fragment_home_page_movie.*
 import kotlinx.android.synthetic.main.fragment_popular.*
 import kotlinx.android.synthetic.main.fragment_popular.recyclerView
+import kotlin.random.Random
 
 class HomePageMovieFragment : Fragment() {
 
     lateinit var viewModel : HomePageViewModel
     var recylerPopularAdapter = RecyclerHomePageAdapter(arrayListOf())
+    var recylerTopRatedAdapter = RecyclerHomePageAdapter(arrayListOf())
+    var recyclerNowPlayingAdapter = RecyclerHomePageAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +41,27 @@ class HomePageMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+       var page  =  Random.nextInt(1,5)
+
         populer.setOnClickListener(){
             val action = HomePageMovieFragmentDirections.actionHomePageMovieFragmentToPopularFragment()
             Navigation.findNavController(it).navigate(action)
         }
+
         viewModel = ViewModelProvider(this).get(HomePageViewModel::class.java)
 
-        recyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-        recyclerView.adapter = recylerPopularAdapter
+        recyclerViewPopular.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        recyclerViewPopular.adapter = recylerPopularAdapter
+        recyclerViewVizyon.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        recyclerViewVizyon.adapter = recyclerNowPlayingAdapter
+        recyclerViewTopRated.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        recyclerViewTopRated.adapter = recylerTopRatedAdapter
+
+        viewModel.getNowPlaying(page)
+        viewModel.getTopRated(page)
+        viewModel.getPopular(page)
         observeLiveData()
-        viewModel.getPopular()
+
     }
 
     fun observeLiveData (){
@@ -55,6 +69,20 @@ class HomePageMovieFragment : Fragment() {
             it?.let {
 
                 recylerPopularAdapter.refreshList(it)
+
+            }
+        }
+
+        viewModel.respondTopRated.observe(viewLifecycleOwner){
+            it?.let {
+                recylerTopRatedAdapter.refreshList(it)
+            }
+        }
+
+        viewModel.respondNowPlaying.observe(viewLifecycleOwner) {
+            it?.let {
+
+                recyclerNowPlayingAdapter.refreshList(it)
 
             }
         }
